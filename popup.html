@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Barcode Generator</title>
+		<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="popup.js"></script>
+		<link type="text/css" rel="Stylesheet" href="popup.css" />
+		<link type="text/css" rel="Stylesheet" href="dd.css" />
+	</head>
+	<body>
+		<h1>Barcode Generator</h1>
+		<form enctype="multipart/form-data" action="http://www.barcode-generator.org/" method="post" target="_blank">
+			<div>
+				<label>Data:</label>
+				<input id="data" name="data" type="text" size="40" />
+			</div>
+			<div>
+				<label>Type:</label>
+				<select id="barcode" name="barcode">
+					<option value="92">Aztec Code</option>
+					<option value="128">Aztec Runes</option>
+					<option value="140">Channel Code</option>
+					<option value="18">Codabar</option>
+					<option value="20">Code 128</option>
+					<option value="23">Code 16K</option>
+					<option value="8">Code 39</option>
+					<option value="71">Data Matrix</option>
+					<option value="12">EAN</option>
+					<option value="57">Maxicode</option>
+					<option value="47">MSI Plessey</option>
+					<option value="84">PDF417</option>
+					<option value="82">PLANET</option>
+					<option value="58" selected>QR Code</option>
+					<option value="34">UPC-A</option>
+				</select>
+			</div>
+			<div>
+				<label>Size:</label>
+				<select id="size" name="size">
+					<option value="1">small</option>
+					<option value="2">normal</option>
+					<option value="3">large</option>
+					<option value="4">very large</option>
+				</select>
+			</div>
+			<div class="nav">
+				<input type="hidden" name="senderid" value="342134mngh"/>
+				<input id="fbut" type="submit" value="Create Barcode"/>
+			</div>
+		</form>
+		<div class="powered-by">
+			Powered by, but not affiliated with, <a href="http://www.barcode-generator.org" target="_blank">barcode-generator.org</a>
+		</div>
+	</body>
+</html>

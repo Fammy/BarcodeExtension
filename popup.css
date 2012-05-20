@@ -1,0 +1,53 @@
+body, input, select
+{
+	font-family: Verdana, arial;
+	font-size: 12pt;
+}
+
+body
+{
+	min-width: 450px;
+}
+
+a
+{
+	color: #00f;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+h1
+{
+	color: #4096EE;
+	font-size: 1.5em;
+	text-align: center;
+}
+
+label
+{
+	display: inline-block;
+	width: 50px;
+	text-align: right;
+	margin-right: .5em;
+	clear: left;
+}
+
+.nav
+{
+	clear: left;
+}
+
+.powered-by
+{
+	color: #4096EE;
+	margin-top: .5em;
+	font-size: .9em;
+}
+
+input[type=submit]
+{
+	margin-left: 63px;
+	padding: 6px;
+	font-size: 1.2em;
+	color: #4096EE;
+}
