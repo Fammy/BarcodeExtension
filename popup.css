@@ -1,30 +1,30 @@
-body, input, select
-{
+body, input, select {
 	font-family: Verdana, arial;
 	font-size: 12pt;
 }
 
-body
-{
+body {
 	min-width: 450px;
+	padding: 0;
+	margin: 0;
 }
 
-a
-{
+a {
 	color: #00f;
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-h1
-{
-	color: #4096EE;
+h1 {
+	margin: 0 0 .5em 0;
+	color: white;
+	background-color: #3f51b5;
+	padding: .5em;
 	font-size: 1.5em;
 	text-align: center;
 }
 
-label
-{
+label {
 	display: inline-block;
 	width: 50px;
 	text-align: right;
@@ -32,22 +32,25 @@ label
 	clear: left;
 }
 
-.nav
-{
+.nav {
 	clear: left;
 }
 
-.powered-by
-{
-	color: #4096EE;
-	margin-top: .5em;
-	font-size: .9em;
-}
-
-input[type=submit]
-{
+input[type=submit] {
 	margin-left: 63px;
 	padding: 6px;
 	font-size: 1.2em;
-	color: #4096EE;
+	color: #3f51b5;
+}
+
+#result {
+	padding: 1em;
+	text-align: center;
+}
+
+.error {
+	color: #e51c23;
+	font-weight: bold;
+	padding: .5em;
+	text-align: center;
 }

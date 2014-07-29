@@ -1,3 +1,17 @@
+var rules = {
+	aztec: { charset: 'ascii', charsetName: 'valid ASCII' },
+	code39: { charset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-.*$/+%', charsetName: 'A-Z, 0-9, and - . * $ / + %' },
+	code128: { charset: 'ascii', charsetName: 'valid ASCII' },
+	datamatrix: { charset: 'ascii', charsetName: 'valid ASCII' },
+	ean8: { minLength: 7, maxLength: 8, charset: '0123456789', charsetName: 'numbers' },
+	ean13: { minLength: 12, maxLength: 13, charset: '0123456789', charsetName: 'numbers' },
+	itf: { minLength: 14, maxLength: 14, charset: '0123456789', charsetName: 'numbers' },
+	msi: { charset: '0123456789', charsetName: 'numbers' },
+	pdf417: { charset: 'ascii', charsetName: 'valid ASCII' },
+	qrcode: { charset: 'ascii', charsetName: 'valid ASCII' },
+	upca: { minLength: 11, maxLength: 12, charset: '0123456789', charsetName: 'numbers' }
+}
+
 $(function ()
 {
 	// Load previous values
@@ -25,12 +39,12 @@ $(function ()
 	{
 		localStorage["barcodeExtension_Data"] = $(this).val();
 	});
-	
+
 	$('#barcode').change(function ()
 	{
 		localStorage["barcodeExtension_Barcode"] = $(this).val();
 	});
-	
+
 	$('#size').change(function ()
 	{
 		localStorage["barcodeExtension_Size"] = $(this).val();
@@ -38,4 +52,56 @@ $(function ()
 
 	// Focus initial field
 	$('#data').select();
+
+	$('#submit').on('click', function(event) {
+		event.preventDefault();
+
+		var displayName = $('#barcode option:selected').text();
+		var barcode = $('#barcode').val();
+		var data = $('#data').val();
+		var size = $('#size').val();
+
+		$('.error').empty();
+		$('#result').empty();
+
+		var rule = rules[barcode];
+
+		if (rule.charset !== 'ascii') {
+			if (!validData(data, rule.charset)) {
+				$('.error').text('Invalid characters. Only ' + rule.charsetName + ' allowed');
+				return;
+			}
+		}
+
+		if (rule.minLength && data.length < rule.minLength) {
+			$('.error').text(displayName + ' must be at least ' + rule.minLength + ' characters.');
+			return;
+		}
+
+		if (rule.maxLength && data.length > rule.maxLength) {
+			$('.error').text(displayName + ' must be at most ' + rule.maxLength + ' characters.');
+			return;
+		}
+
+		var img = $('<img src="http://famularo.org/web/barcode?type=' + barcode + '&content=' + encodeURIComponent(data).replace("''", '%27') + '&size=' + size + '"/>').error( function () {
+			$('.error').text('Failed to load barcode. Are you sure the data you entered is correct?');
+			$('#result').empty();
+		})
+
+		$('#result').append(img);
+	});
+
+	if (data) {
+		$('#submit').click();
+	}
 });
+
+function validData(data, charset) {
+	for (var i = 0; i < data.length; ++i) {
+		if (charset.indexOf(data[i]) === -1) {
+			return false;
+		}
+	}
+
+	return true;
+}
