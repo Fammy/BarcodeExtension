@@ -63,6 +63,8 @@ $(function ()
 
 		$('.error').empty();
 		$('#result').empty();
+		$('#download').hide();
+		$('form').attr('action', '');
 
 		var rule = rules[barcode];
 
@@ -83,14 +85,18 @@ $(function ()
 			return;
 		}
 
-		var img = $('<img src="http://famularo.org/web/barcode?type=' + barcode + '&content=' + encodeURIComponent(data).replace("''", '%27') + '&size=' + size + '"/>').error( function () {
+		var url = 'http://famularo.org/web/barcode?type=' + barcode + '&content=' + encodeURIComponent(data).replace("''", '%27') + '&size=' + size;
+		$('#download-button').data('url', url);
+		$('form').attr('action', url + '&download=1');
+
+		var img = $('<img src="' + url + '"/>').error( function () {
 			$('.error').text('Failed to load barcode. Are you sure the data you entered is correct?');
 			$('#result').empty();
 		})
 
 		$('#result').append(img);
+		$('#download').show();
 	});
-
 	if (data) {
 		$('#submit').click();
 	}

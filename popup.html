@@ -8,10 +8,10 @@
 	</head>
 	<body>
 		<h1>Barcode Generator</h1>
-		<form>
+		<form method="POST">
 			<div>
 				<label>Data:</label>
-				<input id="data" name="data" type="text" size="40" />
+				<input id="data" name="data" type="text" size="35" />
 			</div>
 			<div>
 				<label>Type:</label>
@@ -41,8 +41,9 @@
 				<input id="submit" type="submit" value="Create Barcode"/>
 			</div>
 			<div class="error"></div>
-		</form>
 
-		<div id="result"></div>
+			<div id="result"></div>
+			<div id="download" style="display: none;"><input id="download-button" type="submit" value="Download"/></div>
+		</form>
 	</body>
 </html>

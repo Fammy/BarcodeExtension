@@ -43,6 +43,15 @@ input[type=submit] {
 	color: #3f51b5;
 }
 
+#download-button {
+	margin-left: 0;
+	font-size: 1em;
+}
+
+#download {
+	text-align: center;
+}
+
 #result {
 	padding: 1em;
 	text-align: center;
