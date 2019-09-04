@@ -1,6 +1,6 @@
 var rules = {
 	aztec: { charset: 'ascii', charsetName: 'valid ASCII' },
-	code39: { charset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-.*$/+%', charsetName: 'A-Z, 0-9, and - . * $ / + %' },
+	code39: { charset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-.*$/+% ', charsetName: 'A-Z, 0-9, and - . * $ / + %' },
 	code128: { charset: 'ascii', charsetName: 'valid ASCII' },
 	datamatrix: { charset: 'ascii', charsetName: 'valid ASCII' },
 	ean8: { minLength: 7, maxLength: 8, charset: '0123456789', charsetName: 'numbers' },
@@ -85,7 +85,7 @@ $(function ()
 			return;
 		}
 
-		var url = 'http://famularo.org/web/barcode?type=' + barcode + '&content=' + encodeURIComponent(data).replace("''", '%27') + '&size=' + size;
+		var url = 'https://barcodegen.azurewebsites.net/api/Generate?code=G/6JsCh2VyPUiqraxTOqsrzElgjUnFEwNaBJyxc1iaL9DD8m0a0ZGg==&type=' + barcode + '&content=' + encodeURIComponent(data).replace("''", '%27') + '&size=' + size;
 		$('#download-button').data('url', url);
 		$('form').attr('action', url + '&download=1');
 

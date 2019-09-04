@@ -33,6 +33,7 @@ label {
 }
 
 .nav {
+	margin-top: .5em;
 	clear: left;
 }
 
@@ -46,6 +47,7 @@ input[type=submit] {
 #download-button {
 	margin-left: 0;
 	font-size: 1em;
+	margin-bottom: 1em;
 }
 
 #download {

@@ -1,9 +1,9 @@
 {
 	"name": "Barcode Generator",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"manifest_version": 2,
 	"description": "Create barcodes in your browser",
-	"homepage_url": "http://famularo.org/BarcodeExtension",
+	"homepage_url": "http://famularo.org/BarcodeExtension/",
 	"icons":
 	{
 		"16": "icon_16.png",
