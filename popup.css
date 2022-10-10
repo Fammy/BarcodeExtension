@@ -1,3 +1,20 @@
+:root {
+	--accent-color: #002E94;
+	--bg-color: #FFFFFF;
+	--text-primary-color: #000000;
+	--text-accent-color: #FFFFFF;
+	--error-color: #E51C23;
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		--accent-color: #395B64;
+		--bg-color: #2C3333;
+		--text-primary-color: #A5C9CA;
+		--text-accent-color: #E7F6F2;
+	}
+}
+
 body, input, select {
 	font-family: Verdana, arial;
 	font-size: 12pt;
@@ -7,18 +24,14 @@ body {
 	min-width: 450px;
 	padding: 0;
 	margin: 0;
-}
-
-a {
-	color: #00f;
-	text-decoration: underline;
-	cursor: pointer;
+	color: var(--text-primary-color);
+	background-color: var(--bg-color);
 }
 
 h1 {
 	margin: 0 0 .5em 0;
-	color: white;
-	background-color: #3f51b5;
+	color: var(--text-accent-color);
+	background-color: var(--accent-color);
 	padding: .5em;
 	font-size: 1.5em;
 	text-align: center;
@@ -41,7 +54,8 @@ input[type=submit] {
 	margin-left: 63px;
 	padding: 6px;
 	font-size: 1.2em;
-	color: #3f51b5;
+	color: var(--accent-color);
+	cursor: pointer;
 }
 
 #download-button {
@@ -60,7 +74,7 @@ input[type=submit] {
 }
 
 .error {
-	color: #e51c23;
+	color: var(--error-color);
 	font-weight: bold;
 	padding: .5em;
 	text-align: center;
