@@ -85,7 +85,7 @@ $(function ()
 			return;
 		}
 
-		var url = 'https://barcodegen.azurewebsites.net/api/Generate?code=G/6JsCh2VyPUiqraxTOqsrzElgjUnFEwNaBJyxc1iaL9DD8m0a0ZGg==&type=' + barcode + '&content=' + encodeURIComponent(data).replace("''", '%27') + '&size=' + size;
+		var url = 'https://barcodegen4.azurewebsites.net/api/Generate?code=b4nw-0LVsHcu9BVK0oZ3E0SjBNujNPg4MfabFRAOSunwAzFuHZEMwQ==&type=' + barcode + '&content=' + encodeURIComponent(data).replace("''", '%27') + '&size=' + size;
 		$('#download-button').data('url', url);
 		$('form').attr('action', url + '&download=1');
 
