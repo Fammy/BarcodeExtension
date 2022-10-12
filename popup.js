@@ -66,6 +66,11 @@ $(function ()
 		$('#download').hide();
 		$('form').attr('action', '');
 
+		if (data.trim().length === 0) {
+			$('.error').text('Data can\' be empty.');
+			return;
+		}
+
 		var rule = rules[barcode];
 
 		if (rule.charset !== 'ascii') {
