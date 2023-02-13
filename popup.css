@@ -45,6 +45,13 @@ label {
 	clear: left;
 }
 
+label.checkbox {
+	text-align: left;
+	width: 300px;
+	margin-left: .2em;
+	margin-right: 0;
+}
+
 .nav {
 	margin-top: .5em;
 	clear: left;
@@ -65,12 +72,24 @@ input[type=submit] {
 }
 
 #download {
+	margin-top: 1em;
+	clear: both;
 	text-align: center;
 }
 
 #result {
-	padding: 1em;
+	background-color: #FFF;
+	color: #000;
+	padding: .5em;
 	text-align: center;
+	display: inline;
+}
+
+#resultWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 }
 
 .error {

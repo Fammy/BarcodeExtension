@@ -18,6 +18,7 @@ $(function ()
 	var data =  localStorage["barcodeExtension_Data"];
 	var barcode = localStorage["barcodeExtension_Barcode"];
 	var size = localStorage["barcodeExtension_Size"];
+	var include = localStorage["barcodeExtension_Include"];
 
 	if (data)
 	{
@@ -32,6 +33,12 @@ $(function ()
 	if (size)
 	{
 		$('#size').val(size);
+	}
+
+	console.log(include)
+	if (include === "true")
+	{
+		$('#include').prop("checked", true);
 	}
 
 	// Save values on change
@@ -50,6 +57,11 @@ $(function ()
 		localStorage["barcodeExtension_Size"] = $(this).val();
 	});
 
+	$('#include').change(function ()
+	{
+		localStorage["barcodeExtension_Include"] = $(this).is(":checked");
+	});
+
 	// Focus initial field
 	$('#data').select();
 
@@ -60,6 +72,7 @@ $(function ()
 		var barcode = $('#barcode').val();
 		var data = $('#data').val();
 		var size = $('#size').val();
+		var include = $('#include').is(":checked");
 
 		$('.error').empty();
 		$('#result').empty();
@@ -67,7 +80,7 @@ $(function ()
 		$('form').attr('action', '');
 
 		if (data.trim().length === 0) {
-			$('.error').text('Data can\' be empty.');
+			$('.error').text('Data can\'t be empty.');
 			return;
 		}
 
@@ -90,7 +103,12 @@ $(function ()
 			return;
 		}
 
-		var url = 'https://barcodegen4.azurewebsites.net/api/Generate?code=b4nw-0LVsHcu9BVK0oZ3E0SjBNujNPg4MfabFRAOSunwAzFuHZEMwQ==&type=' + barcode + '&content=' + encodeURIComponent(data).replace("''", '%27') + '&size=' + size;
+		var	includeQs = include ? "1" : "0";
+
+		var url = 'https://barcodegen4.azurewebsites.net/api/Generate?code=b4nw-0LVsHcu9BVK0oZ3E0SjBNujNPg4MfabFRAOSunwAzFuHZEMwQ==&type=' + barcode
+			+ '&content=' + encodeURIComponent(data).replace("''", '%27')
+			+ '&size=' + size
+			+ '&include=' + includeQs;
 		$('#download-button').data('url', url);
 		$('form').attr('action', url + '&download=1');
 

@@ -10,11 +10,11 @@
 		<h1>Barcode Generator</h1>
 		<form method="POST">
 			<div>
-				<label>Data:</label>
+				<label for="data">Data:</label>
 				<input id="data" name="data" type="text" size="35" />
 			</div>
 			<div>
-				<label>Type:</label>
+				<label for="barcode">Type:</label>
 				<select id="barcode" name="barcode">
 					<option value="aztec">Aztec Code</option>
 					<option value="code39">Code 39</option>
@@ -30,19 +30,25 @@
 				</select>
 			</div>
 			<div>
-				<label>Size:</label>
+				<label for="size">Size:</label>
 				<select id="size" name="size">
 					<option value="1">normal</option>
 					<option value="2">larger</option>
 					<option value="3">largest</option>
 				</select>
 			</div>
+			<div>
+				<label></label>
+				<input id="include" name="include" type="checkbox" /><label class="checkbox" for="include">Include Human Readable Text</label>
+			</div>
 			<div class="nav">
 				<input id="submit" type="submit" value="Create Barcode"/>
 			</div>
 			<div class="error"></div>
 
-			<div id="result"></div>
+			<div id="resultWrapper">
+				<div id="result"></div>
+			</div>
 			<div id="download" style="display: none;"><input id="download-button" type="submit" value="Download"/></div>
 		</form>
 	</body>
