@@ -12,60 +12,51 @@ var rules = {
 	upca: { minLength: 11, maxLength: 12, charset: '0123456789', charsetName: 'numbers' }
 }
 
-$(function ()
-{
+$(function () {
 	// Load previous values
-	var data =  localStorage["barcodeExtension_Data"];
+	var data = localStorage["barcodeExtension_Data"];
 	var barcode = localStorage["barcodeExtension_Barcode"];
 	var size = localStorage["barcodeExtension_Size"];
 	var include = localStorage["barcodeExtension_Include"];
 
-	if (data)
-	{
+	if (data) {
 		$('#data').val(data);
 	}
 
-	if (barcode)
-	{
+	if (barcode) {
 		$('#barcode').val(barcode);
 	}
 
-	if (size)
-	{
+	if (size) {
 		$('#size').val(size);
 	}
 
 	console.log(include)
-	if (include === "true")
-	{
+	if (include === "true") {
 		$('#include').prop("checked", true);
 	}
 
 	// Save values on change
-	$('#data').blur(function ()
-	{
+	$('#data').blur(function () {
 		localStorage["barcodeExtension_Data"] = $(this).val();
 	});
 
-	$('#barcode').change(function ()
-	{
+	$('#barcode').change(function () {
 		localStorage["barcodeExtension_Barcode"] = $(this).val();
 	});
 
-	$('#size').change(function ()
-	{
+	$('#size').change(function () {
 		localStorage["barcodeExtension_Size"] = $(this).val();
 	});
 
-	$('#include').change(function ()
-	{
+	$('#include').change(function () {
 		localStorage["barcodeExtension_Include"] = $(this).is(":checked");
 	});
 
 	// Focus initial field
 	$('#data').select();
 
-	$('#submit').on('click', function(event) {
+	$('#submit').on('click', function (event) {
 		event.preventDefault();
 
 		var displayName = $('#barcode option:selected').text();
@@ -103,22 +94,36 @@ $(function ()
 			return;
 		}
 
-		var	includeQs = include ? "1" : "0";
+		var includeQs = include ? "1" : "0";
 
-		var url = 'https://barcodegen4.azurewebsites.net/api/Generate?code=b4nw-0LVsHcu9BVK0oZ3E0SjBNujNPg4MfabFRAOSunwAzFuHZEMwQ==&type=' + barcode
-			+ '&content=' + encodeURIComponent(data).replace("''", '%27')
+		var url = 'https://barcodegen.famularo.org/Generate?type=' + barcode
+			+ '&content=' + encodeURIComponent(data).replace(/'/g, '%27')
 			+ '&size=' + size
 			+ '&include=' + includeQs;
 		$('#download-button').data('url', url);
 		$('form').attr('action', url + '&download=1');
 
-		var img = $('<img src="' + url + '"/>').error( function () {
-			$('.error').text('Failed to load barcode. Are you sure the data you entered is correct?');
-			$('#result').empty();
-		})
-
-		$('#result').append(img);
-		$('#download').show();
+		fetch(url)
+			.then(function(response) {
+				if (response.status === 429) {
+					$('.error').text('You created too many barcodes. Please try again in a minute.');
+					return;
+				}
+				if (!response.ok) {
+					$('.error').text('Failed to load barcode. Are you sure the data you entered is correct?');
+					return;
+				}
+				return response.blob().then(function(blob) {
+					var objectUrl = URL.createObjectURL(blob);
+					var img = $('<img src="' + objectUrl + '"/>');
+					$('#result').append(img);
+					$('#download').show();
+				});
+			})
+			.catch(function(error) {
+				$('.error').text('Failed to load barcode. Are you sure the data you entered is correct?');
+				$('#result').empty();
+			});
 	});
 	if (data) {
 		$('#submit').click();
