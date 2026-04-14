@@ -12,7 +12,7 @@ var rules = {
 	upca: { minLength: 11, maxLength: 12, charset: '0123456789', charsetName: 'numbers' }
 }
 
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
 	// Load previous values
 	var data = localStorage["barcodeExtension_Data"];
 	var barcode = localStorage["barcodeExtension_Barcode"];
@@ -20,58 +20,64 @@ $(function () {
 	var include = localStorage["barcodeExtension_Include"];
 
 	if (data) {
-		$('#data').val(data);
+		document.getElementById('data').value = data;
 	}
 
 	if (barcode) {
-		$('#barcode').val(barcode);
+		document.getElementById('barcode').value = barcode;
 	}
 
 	if (size) {
-		$('#size').val(size);
+		document.getElementById('size').value = size;
 	}
 
-	console.log(include)
+	console.log(include);
 	if (include === "true") {
-		$('#include').prop("checked", true);
+		document.getElementById('include').checked = true;
 	}
 
 	// Save values on change
-	$('#data').blur(function () {
-		localStorage["barcodeExtension_Data"] = $(this).val();
+	document.getElementById('data').addEventListener('blur', function () {
+		localStorage["barcodeExtension_Data"] = this.value;
 	});
 
-	$('#barcode').change(function () {
-		localStorage["barcodeExtension_Barcode"] = $(this).val();
+	document.getElementById('barcode').addEventListener('change', function () {
+		localStorage["barcodeExtension_Barcode"] = this.value;
 	});
 
-	$('#size').change(function () {
-		localStorage["barcodeExtension_Size"] = $(this).val();
+	document.getElementById('size').addEventListener('change', function () {
+		localStorage["barcodeExtension_Size"] = this.value;
 	});
 
-	$('#include').change(function () {
-		localStorage["barcodeExtension_Include"] = $(this).is(":checked");
+	document.getElementById('include').addEventListener('change', function () {
+		localStorage["barcodeExtension_Include"] = this.checked;
 	});
 
 	// Focus initial field
-	$('#data').select();
+	document.getElementById('data').select();
 
-	$('#submit').on('click', function (event) {
+	document.getElementById('submit').addEventListener('click', function (event) {
 		event.preventDefault();
 
-		var displayName = $('#barcode option:selected').text();
-		var barcode = $('#barcode').val();
-		var data = $('#data').val();
-		var size = $('#size').val();
-		var include = $('#include').is(":checked");
+		var barcodeEl = document.getElementById('barcode');
+		var displayName = barcodeEl.options[barcodeEl.selectedIndex].text;
+		var barcode = barcodeEl.value;
+		var data = document.getElementById('data').value;
+		var size = document.getElementById('size').value;
+		var include = document.getElementById('include').checked;
 
-		$('.error').empty();
-		$('#result').empty();
-		$('#download').hide();
-		$('form').attr('action', '');
+		var errorEl = document.querySelector('.error');
+		var resultEl = document.getElementById('result');
+		var downloadEl = document.getElementById('download');
+		var formEl = document.querySelector('form');
+
+		errorEl.textContent = '';
+		resultEl.innerHTML = '';
+		downloadEl.style.display = 'none';
+		formEl.setAttribute('action', '');
 
 		if (data.trim().length === 0) {
-			$('.error').text('Data can\'t be empty.');
+			errorEl.textContent = 'Data can\'t be empty.';
 			return;
 		}
 
@@ -79,18 +85,18 @@ $(function () {
 
 		if (rule.charset !== 'ascii') {
 			if (!validData(data, rule.charset)) {
-				$('.error').text('Invalid characters. Only ' + rule.charsetName + ' allowed');
+				errorEl.textContent = 'Invalid characters. Only ' + rule.charsetName + ' allowed';
 				return;
 			}
 		}
 
 		if (rule.minLength && data.length < rule.minLength) {
-			$('.error').text(displayName + ' must be at least ' + rule.minLength + ' characters.');
+			errorEl.textContent = displayName + ' must be at least ' + rule.minLength + ' characters.';
 			return;
 		}
 
 		if (rule.maxLength && data.length > rule.maxLength) {
-			$('.error').text(displayName + ' must be at most ' + rule.maxLength + ' characters.');
+			errorEl.textContent = displayName + ' must be at most ' + rule.maxLength + ' characters.';
 			return;
 		}
 
@@ -100,33 +106,35 @@ $(function () {
 			+ '&content=' + encodeURIComponent(data).replace(/'/g, '%27')
 			+ '&size=' + size
 			+ '&include=' + includeQs;
-		$('#download-button').data('url', url);
-		$('form').attr('action', url + '&download=1');
+		document.getElementById('download-button').dataset.url = url;
+		formEl.setAttribute('action', url + '&download=1');
 
 		fetch(url)
-			.then(function(response) {
+			.then(function (response) {
 				if (response.status === 429) {
-					$('.error').text('You created too many barcodes. Please try again in a minute.');
+					errorEl.textContent = 'You created too many barcodes. Please try again in a minute.';
 					return;
 				}
 				if (!response.ok) {
-					$('.error').text('Failed to load barcode. Are you sure the data you entered is correct?');
+					errorEl.textContent = 'Failed to load barcode. Are you sure the data you entered is correct?';
 					return;
 				}
-				return response.blob().then(function(blob) {
+				return response.blob().then(function (blob) {
 					var objectUrl = URL.createObjectURL(blob);
-					var img = $('<img src="' + objectUrl + '"/>');
-					$('#result').append(img);
-					$('#download').show();
+					var img = document.createElement('img');
+					img.src = objectUrl;
+					resultEl.appendChild(img);
+					downloadEl.style.display = '';
 				});
 			})
-			.catch(function(error) {
-				$('.error').text('Failed to load barcode. Are you sure the data you entered is correct?');
-				$('#result').empty();
+			.catch(function (error) {
+				errorEl.textContent = 'Failed to load barcode. Are you sure the data you entered is correct?';
+				resultEl.innerHTML = '';
 			});
 	});
+
 	if (data) {
-		$('#submit').click();
+		document.getElementById('submit').click();
 	}
 });
 
