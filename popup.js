@@ -100,6 +100,13 @@ document.addEventListener('DOMContentLoaded', function () {
 			return;
 		}
 
+		if (['ean8', 'ean13', 'upca', 'itf'].indexOf(barcode) !== -1 && data.length === rule.maxLength) {
+			if (!isValidChecksum(data)) {
+				errorEl.textContent = 'Invalid checksum digit. Please check your data.';
+				return;
+			}
+		}
+
 		var includeQs = include ? "1" : "0";
 
 		var url = 'https://barcodegen.famularo.org/Generate?type=' + barcode
@@ -146,4 +153,14 @@ function validData(data, charset) {
 	}
 
 	return true;
+}
+
+function isValidChecksum(data) {
+	var sum = 0;
+	for (var i = 0; i < data.length - 1; i++) {
+		var digit = parseInt(data[data.length - 2 - i], 10);
+		sum += (i % 2 === 0) ? digit * 3 : digit;
+	}
+	var checkDigit = (10 - (sum % 10)) % 10;
+	return checkDigit === parseInt(data[data.length - 1], 10);
 }
